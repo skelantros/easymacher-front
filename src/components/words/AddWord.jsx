@@ -2,7 +2,7 @@ import { useState } from "react"
 import { addWord } from "../../API/words"
 import { useAuth0Token } from "../../hooks/useAuth0Token"
 
-const AddWord = (errorCallback) => {
+const AddWord = ({errorCallback, addWordCallback}) => {
     const [word, setWord] = useState(null)
     const [translate, setTranslate] = useState(null)
     const [type, setType] = useState('unknown')
@@ -12,7 +12,8 @@ const AddWord = (errorCallback) => {
 
     async function sendWord(word) {
         const token = await getToken()
-        await addWord(token, word, translate, type, plural)
+        const {data: newWord} = await addWord(token, word, translate, type, plural)
+        addWordCallback(newWord)
     }
 
     const nounParameters = (
