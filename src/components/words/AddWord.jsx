@@ -1,15 +1,18 @@
 import { useState } from "react"
 import WordsAPI from "../../API/WordsAPI"
-import {credsMiddleware} from "../../API/middlewares/credsMiddleware"
+import { useAuth0 } from "@auth0/auth0-react"
 
 const AddWord = ({errorCallback}) => {
     const [word, setWord] = useState('')
 
+    const { user, isAuthenicated, getAccessTokenSilently } = useAuth0()
+
+
     const addWord = async (word) => {
-        const request = credsMiddleware(WordsAPI.addWord(word))
-        const resp = await request
-        errorCallback(resp.data)
+        
     }
+
+    
 
     return(
         <div>
