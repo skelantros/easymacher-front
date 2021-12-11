@@ -1,4 +1,4 @@
-import { getRequest } from "./instance"
+import { bearerConfig, getRequest, postRequest, request } from "./instance"
 
 export const getWords = (token) => {
     return getRequest("/words", {
@@ -6,4 +6,10 @@ export const getWords = (token) => {
             "Authorization": `Bearer ${token}`
         }
     })
+}
+
+export const addWord = (token, word) => {
+    return postRequest("/add-word", {
+        "word": word
+    }, bearerConfig(token))
 }
