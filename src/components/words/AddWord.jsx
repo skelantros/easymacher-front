@@ -1,18 +1,16 @@
 import { useState } from "react"
-import WordsAPI from "../../API/WordsAPI"
-import { useAuth0 } from "@auth0/auth0-react"
+import { addWord } from "../../API/words"
+import { useAuth0Token } from "../../hooks/useAuth0Token"
 
 const AddWord = ({errorCallback}) => {
     const [word, setWord] = useState('')
 
-    const { user, isAuthenicated, getAccessTokenSilently } = useAuth0()
+    const [getToken] = useAuth0Token()
 
-
-    const addWord = async (word) => {
-        
+    async function sendWord(word) {
+        const token = await getToken()
+        await addWord(token, word)
     }
-
-    
 
     return(
         <div>
@@ -21,7 +19,7 @@ const AddWord = ({errorCallback}) => {
                 placeholder="Слово"
                 onChange={(e) => {setWord(e.target.value)}}
             />
-            <button onClick={() => { addWord(word) }}>Добавить</button>
+            <button onClick={() => { sendWord(word) }}>Добавить</button>
         </div>
     )
 }
