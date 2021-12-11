@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const WordCard = ({word}) => {
+const WordCard = ({word, removeWordCallback}) => {
 
     function printAny(word) {
         return(
@@ -35,6 +35,7 @@ const WordCard = ({word}) => {
     return (
         <div>
             { printWord(word) }
+            <button onClick = {removeWordCallback}>Удалить</button>
         </div>
     )
 }

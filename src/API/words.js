@@ -16,3 +16,7 @@ export const addWord = (token, word, translate, type, plural) => {
         "plural": plural
     }, bearerConfig(token))
 }
+
+export const removeWord = (token, id) => {
+    return postRequest(`/word/${id}/remove`, {}, bearerConfig(token))
+}

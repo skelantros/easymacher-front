@@ -3,7 +3,7 @@ import AddWord from "../components/words/AddWord"
 import WordCard from "../components/words/WordCard"
 import { useAuth0Token } from "../hooks/useAuth0Token"
 import { useFetching } from "../hooks/useFetching"
-import { addWord, getWords } from "../API/words"
+import { addWord, getWords, removeWord } from "../API/words"
 
 const WordsPage = () => {
     const [words, setWords] = useState([])
@@ -21,6 +21,15 @@ const WordsPage = () => {
         setWords([...words, word])
     }
 
+    const removeWordFromList = async (id) => {
+        const token = await getToken()
+        const response = await removeWord(token, id)
+        console.log(response)
+
+        const newList = words.filter(w => w.id !== id)
+        setWords(newList)
+    }
+
     useEffect(() => {
         fetchWords()
     }, [])
@@ -30,7 +39,7 @@ const WordsPage = () => {
             <h1>Список слов:</h1>
             { isWordsLoading ?
                 <p>Загрузка...</p>
-                : words.map(w => <WordCard key = {w.id} word = {w}/>)
+                : words.map(w => <WordCard key = {w.id} word = {w} removeWordCallback={() => removeWordFromList(w.id)}/>)
             }
             <AddWord errorCallback={(e) => setError(e)} addWordCallback={addWordToList}/>
             <p>{error}</p>
