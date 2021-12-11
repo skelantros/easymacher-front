@@ -2,23 +2,55 @@ import { useState } from "react"
 import { addWord } from "../../API/words"
 import { useAuth0Token } from "../../hooks/useAuth0Token"
 
-const AddWord = ({errorCallback}) => {
-    const [word, setWord] = useState('')
+const AddWord = (errorCallback) => {
+    const [word, setWord] = useState(null)
+    const [translate, setTranslate] = useState(null)
+    const [type, setType] = useState('unknown')
+    const [plural, setPlural] = useState(null)
 
     const [getToken] = useAuth0Token()
 
     async function sendWord(word) {
         const token = await getToken()
-        await addWord(token, word)
+        await addWord(token, word, translate, type, plural)
     }
+
+    const nounParameters = (
+        <div>
+            <b>Множественное число: </b>
+            <input 
+                placeholder="Мн. число"
+                onChange={(e) => {setPlural(e.target.value)}}
+            />
+        </div>
+    )
 
     return(
         <div>
-            <b>Добавить слово:</b>
+            <h3>Добавить слово:</h3>
+            <b>Слово: </b>
             <input 
                 placeholder="Слово"
                 onChange={(e) => {setWord(e.target.value)}}
             />
+            <p/>
+            <b>Перевод: </b>
+            <input 
+                placeholder="Перевод"
+                onChange={(e) => {setTranslate(e.target.value)}}
+            />
+            <p/>
+            <b>Часть речи: </b>
+            <select 
+                value= {type}
+                onChange= {e => setType(e.target.value) }
+            >
+                
+                <option value="unknown">{"-"}</option>
+                <option value="noun">{"существительное"}</option>
+            </select>
+            <p/>
+            { type === 'noun' ? nounParameters : <div /> }
             <button onClick={() => { sendWord(word) }}>Добавить</button>
         </div>
     )

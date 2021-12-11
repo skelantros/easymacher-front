@@ -17,6 +17,8 @@ const WordsPage = () => {
         setWords(response.data)
     })
 
+    function updateCallback() {}
+
     useEffect(() => {
         fetchWords()
     }, [])
@@ -26,7 +28,7 @@ const WordsPage = () => {
             <h1>Список слов:</h1>
             { isWordsLoading ?
                 <p>Загрузка...</p>
-                : words.map(w => <WordCard id = {w.id} word = {w}/>)
+                : words.map(w => <WordCard key = {w.id} word = {w}/>)
             }
             <AddWord errorCallback={(e) => setError(e)}/>
             <p>{error}</p>

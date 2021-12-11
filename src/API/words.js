@@ -8,8 +8,11 @@ export const getWords = (token) => {
     })
 }
 
-export const addWord = (token, word) => {
+export const addWord = (token, word, translate, type, plural) => {
     return postRequest("/add-word", {
-        "word": word
+        "word": word,
+        "translate": translate,
+        "type": type,
+        "plural": plural
     }, bearerConfig(token))
 }
