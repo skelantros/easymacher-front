@@ -4,7 +4,7 @@ const EMSelect = ({options, value, onChange}) => {
     return (
         <select
             value={value}
-            onChange={event => onChange(event.target.value)}
+            onChange={event => onChange(event)}
         >
             {options.map(opt => 
                 <option key={opt.value} value={opt.value}>{opt.name}</option>
