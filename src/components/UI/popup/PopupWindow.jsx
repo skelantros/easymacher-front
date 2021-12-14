@@ -1,5 +1,5 @@
 import React from "react"
-import cl from './PopupWindow.module.css'
+import cl from './PopupWindows.module.css'
 
 const PopupWindow = ({children, visible, setVisible}) => {
     const rootClasses = [cl.popupWindow];
