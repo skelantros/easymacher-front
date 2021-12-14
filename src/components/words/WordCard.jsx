@@ -1,4 +1,5 @@
 import { useState } from "react"
+import EMButton from "../UI/button/EMButton"
 
 const WordCard = ({word, removeWordCallback}) => {
 
@@ -35,7 +36,7 @@ const WordCard = ({word, removeWordCallback}) => {
     return (
         <div>
             { printWord(word) }
-            <button onClick = {removeWordCallback}>Удалить</button>
+            <EMButton onClick = {removeWordCallback}>Удалить</EMButton>
         </div>
     )
 }

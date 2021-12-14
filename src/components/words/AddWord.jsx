@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { addWord } from "../../API/words"
 import { useAuth0Token } from "../../hooks/useAuth0Token"
+import EMButton from "../UI/button/EMButton"
 
 const AddWord = ({errorCallback, addWordCallback}) => {
     const [word, setWord] = useState(null)
@@ -52,7 +53,7 @@ const AddWord = ({errorCallback, addWordCallback}) => {
             </select>
             <p/>
             { type === 'noun' ? nounParameters : <div /> }
-            <button onClick={() => { sendWord(word) }}>Добавить</button>
+            <EMButton onClick={() => { sendWord(word) }}>Добавить</EMButton>
         </div>
     )
 }
