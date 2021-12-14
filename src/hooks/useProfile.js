@@ -1,8 +1,8 @@
 import { useAuth0Token } from "./useAuth0Token"
 import { getProfile as getBackendProfile } from "../API/users"
 
-export const useBackendProfile = () => {
-    const getToken = useAuth0Token()
+export const useProfile = () => {
+    const [getToken] = useAuth0Token()
 
     const getProfile = async () => {
         const token = await getToken()
