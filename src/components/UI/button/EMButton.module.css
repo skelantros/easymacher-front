@@ -1,0 +1,8 @@
+.emBtn {
+    padding: 5px 15px;
+    color: orangered;
+    font-size: 14px;
+    background: transparent;
+    border: 1px solid orangered;
+    cursor: pointer;
+}
