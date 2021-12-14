@@ -30,7 +30,7 @@ const AddWordGroup = ({errorCallback, addGroupCallback}) => {
                     {name: "да", value: true},
                     {name: "нет", value: false}
                 ]}
-                onChange={v => setIsShared(v)}
+                onChange={e => setIsShared(e.target.value === 'true')}
             />
             <EMButton onClick={() => sendGroup()}>Создать</EMButton>
         </div>
