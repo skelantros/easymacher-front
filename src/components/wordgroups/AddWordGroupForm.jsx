@@ -9,10 +9,13 @@ const AddWordGroupForm = ({errorCallback, addGroupCallback}) => {
     const [isShared, setIsShared] = useState(false)
     const [getToken] = useAuth0Token()
 
-    async function sendGroup() {
+    async function sendGroup(e) {
+        e.preventDefault()
         const token = await getToken()
         const response = await createWordGroup(token, name, isShared)
         addGroupCallback(response.data)
+        setName('')
+        setIsShared(false)
     }
 
     return(
@@ -32,7 +35,7 @@ const AddWordGroupForm = ({errorCallback, addGroupCallback}) => {
                 ]}
                 onChange={e => setIsShared(e.target.value === 'true')}
             />
-            <EMButton onClick={() => sendGroup()}>Создать</EMButton>
+            <EMButton onClick={sendGroup}>Создать</EMButton>
         </form>
     )
 }
