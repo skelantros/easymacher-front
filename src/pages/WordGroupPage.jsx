@@ -9,7 +9,6 @@ import { canEditGroup } from "../logic/profileLogic";
 
 const WordGroupPage = () => {
     const params = useParams()
-    const [id, setId] = useState(0)
     const [group, setGroup] = useState({})
     const [groupWords, setGroupWords] = useState([])
     const [remWords, setRemWords] = useState([])
@@ -18,6 +17,7 @@ const WordGroupPage = () => {
     const [getProfile] = useProfile()
 
     const [fetchInfo, isLoading, setError] = useFetching(async () => {
+        const id = params.id
         const token = await getToken()
         const profile = await getProfile()
         const groupResponse = await getWordGroup(token, id)
@@ -36,7 +36,6 @@ const WordGroupPage = () => {
     }
 
     useEffect(() => {
-        setId(params.id)
         fetchInfo()
     }, [])
 
