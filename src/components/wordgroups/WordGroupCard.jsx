@@ -1,23 +1,15 @@
-import React, { useState } from "react"
-import { useAuth0Token } from "../../hooks/useAuth0Token";
-import { useProfile } from "../../hooks/useProfile";
-import WordGroupsPage from "../../pages/WordGroupsPage";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { wordGroupLink } from "../../logic/links";
 import EMButton from "../UI/button/EMButton";
 
-const WordGroupCard = ({group, profile, wordsListCallback, editCallback, addWordsCallback}) => {
-    // group: id, owner, name
+const WordGroupCard = ({group}) => {
+    const router = useNavigate()
 
     return(
         <div>
             <b>{group.name}</b>
-            <EMButton onClick={() => wordsListCallback(group)}>Список слов</EMButton>
-            { group.owner === profile.id || profile.role === 'admin' 
-                ? <div>
-                    <EMButton onClick = {() => editCallback(group)}>Редактировать</EMButton>
-                    <EMButton onClick = { () => addWordsCallback(group)}>Добавить слова</EMButton>
-                 </div>
-                : <div />
-            }
+            <EMButton onClick={() => router(wordGroupLink(group.id))}>Подробнее</EMButton>
         </div>
     )
 }
