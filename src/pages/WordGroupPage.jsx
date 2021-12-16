@@ -22,6 +22,9 @@ const WordGroupPage = () => {
     const [getProfile] = useProfile()
     const [makeRequest] = useTokenRequest()
 
+    const [updateWordsMsg, setUpdateWordsMsg] = useState('')
+    const [updateGroupMsg, setUpdateGroupMsg] = useState('')
+
 
     const [fetchInfo, isLoading, setError] = useFetching(async () => {
         const id = params.id
@@ -61,14 +64,20 @@ const WordGroupPage = () => {
     
     async function confirmWordChanges() {
         await makeRequest(t => rewriteWordsToGroup(t, group.id, groupWords.map(w => w.id)))
+        setUpdateWordsMsg("Слова успешно заменены!")
     }
 
     async function confirmGroupChanges() {
         await makeRequest(t => updateGroup(t, group.id, name, isShared))
+        setUpdateGroupMsg("Настройки группы успешно изменены!")
     }
 
     function canEdit() {
         return canEditGroup(profile, group)
+    }
+
+    function removeGroup() {
+        
     }
 
 
@@ -135,7 +144,10 @@ const WordGroupPage = () => {
                     : <div/>
                 }
                 {canEdit()
-                    ? <EMButton onClick={() => confirmGroupChanges()}>Изменить</EMButton>
+                    ? <div>
+                        <EMButton onClick={() => confirmGroupChanges()}>Изменить</EMButton>
+                        <p>{updateGroupMsg}</p>
+                      </div>
                     : <div/>
                 }
             </div>
@@ -148,7 +160,12 @@ const WordGroupPage = () => {
                 {showInfo()}
                 { canEdit() ? showGroupWordsEdit() : showGroupWords() }
                 { canEdit() ? showRemWords() : <div/> }
-                { canEdit() ? <EMButton onClick={() => confirmWordChanges()}>Изменить слова</EMButton> : <div/>}
+                { canEdit() 
+                    ? <div>
+                        <EMButton onClick={() => confirmWordChanges()}>Изменить слова</EMButton>
+                        <p>{updateWordsMsg}</p>
+                      </div> 
+                    : <div/>}
             </div>
         )
     }
