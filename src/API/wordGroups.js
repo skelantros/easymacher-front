@@ -17,6 +17,10 @@ export const getWordGroup = (token, id) => {
     return getRequest(`/word-groups/${id}`, bearerConfig(token))
 }
 
+export const getWordsOfGroup = (token, id) => {
+    return getRequest(`/word-groups/${id}/words`, bearerConfig(token))
+}
+
 export const createWordGroup = (token, name, isShared) => {
     return postRequest("/word-groups/create", {
         name,
