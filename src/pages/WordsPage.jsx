@@ -4,6 +4,7 @@ import WordCard from "../components/words/WordCard"
 import { useAuth0Token } from "../hooks/useAuth0Token"
 import { useFetching } from "../hooks/useFetching"
 import { addWord, getWords, removeWord } from "../API/words"
+import EMButton from "../components/UI/button/EMButton"
 
 const WordsPage = () => {
     const [words, setWords] = useState([])
@@ -39,7 +40,12 @@ const WordsPage = () => {
             <h1>Список слов:</h1>
             { isWordsLoading ?
                 <p>Загрузка...</p>
-                : words.map(w => <WordCard key = {w.id} word = {w} removeWordCallback={() => removeWordFromList(w.id)}/>)
+                : words.map(w => 
+                    <div key = {w.id} >
+                        <WordCard word = {w} />
+                        <EMButton onClick = {() => removeWordFromList(w.id) }>Удалить</EMButton>
+                    </div>
+                )
             }
             <AddWord errorCallback={(e) => setError(e)} addWordCallback={addWordToList}/>
             <p>{error}</p>

@@ -8,6 +8,7 @@ const Navbar = () => {
                 <Link to="/login">Логин и регистрация</Link>
                 <Link to="/profile">Профиль</Link>
                 <Link to="/dictionary">Словарь</Link>
+                <Link to="/word-groups">Группы слов</Link>
             </div>
         </div>
     )
