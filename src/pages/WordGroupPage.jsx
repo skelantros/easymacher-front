@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getWordGroup, getWordsOfGroup, rewriteWordsToGroup, updateGroup } from "../API/wordGroups";
+import { useNavigate, useParams } from "react-router-dom";
+import { getWordGroup, getWordsOfGroup, removeGroup, rewriteWordsToGroup, updateGroup } from "../API/wordGroups";
 import { getWords } from "../API/words";
 import EMButton from "../components/UI/button/EMButton";
 import EMSelect from "../components/UI/select/EMSelect";
 import WordCard from "../components/words/WordCard";
-import { useAuth0Token } from "../hooks/useAuth0Token";
 import { useFetching } from "../hooks/useFetching";
 import { useProfile } from "../hooks/useProfile";
 import { useTokenRequest } from "../hooks/useTokenRequest";
@@ -24,6 +23,8 @@ const WordGroupPage = () => {
 
     const [updateWordsMsg, setUpdateWordsMsg] = useState('')
     const [updateGroupMsg, setUpdateGroupMsg] = useState('')
+
+    const router = useNavigate()
 
 
     const [fetchInfo, isLoading, setError] = useFetching(async () => {
@@ -72,14 +73,14 @@ const WordGroupPage = () => {
         setUpdateGroupMsg("Настройки группы успешно изменены!")
     }
 
+    async function confirmRemoveGroup() {
+        await makeRequest(t => removeGroup(t, group.id))
+        router("/word-groups")
+    }
+
     function canEdit() {
         return canEditGroup(profile, group)
     }
-
-    function removeGroup() {
-        
-    }
-
 
     useEffect(() => {
         fetchInfo()
@@ -146,6 +147,7 @@ const WordGroupPage = () => {
                 {canEdit()
                     ? <div>
                         <EMButton onClick={() => confirmGroupChanges()}>Изменить</EMButton>
+                        <EMButton onClick={() => confirmRemoveGroup()}>Удалить</EMButton>
                         <p>{updateGroupMsg}</p>
                       </div>
                     : <div/>
