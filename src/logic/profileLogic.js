@@ -6,3 +6,7 @@ export const canEditGroup = (profile, group) => {
 export const canSeeGroup = (profile, group) => {
     return group.isShared || canEditGroup(profile, group)
 }
+
+export const canEditUser = (profile, user) => {
+    return profile.id === user.id || profile.role === 'admin'
+}
