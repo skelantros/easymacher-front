@@ -3,13 +3,13 @@ import EMButton from "../UI/button/EMButton"
 import EMSelect from "../UI/select/EMSelect"
 
 const EditGroupForm = ({group, editCallback, removeCallback}) => {
-    const [name, setName] = useState('')
-    const [isShared, setIsShared] = useState(true)
+    const [name, setName] = useState(group.name)
+    const [isShared, setIsShared] = useState(group.isShared)
 
     useEffect(() => {
         setName(group.name)
         setIsShared(group.isShared)
-    }, [group])
+    }, [])
 
     async function editGroup(e) {
         e.preventDefault()
