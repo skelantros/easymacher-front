@@ -5,6 +5,7 @@ import WordGroupPage from "../pages/WordGroupPage";
 import WordGroupsPage from "../pages/WordGroupsPage";
 import WordsPage from "../pages/WordsPage";
 import Profile from "./auth0/Profile";
+import UserPage from "../pages/UserPage"
 
 const AppRouter = () => {
     return(
@@ -14,6 +15,7 @@ const AppRouter = () => {
             <Route path="/profile" element={<Profile/>} />
             <Route path="/word-groups" element={<WordGroupsPage/>} />
             <Route exact path="/word-group/:id" element={<WordGroupPage/>} />
+            <Route exact path ="/user/:id" element={<UserPage/>} />
         </Routes>
     )
 }
