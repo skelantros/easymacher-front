@@ -4,7 +4,7 @@ import { useProfile } from "../../hooks/useProfile";
 import WordGroupsPage from "../../pages/WordGroupsPage";
 import EMButton from "../UI/button/EMButton";
 
-const WordGroupCard = ({group, profile, wordsListCallback, editCallback}) => {
+const WordGroupCard = ({group, profile, wordsListCallback, editCallback, addWordsCallback}) => {
     // group: id, owner, name
 
     return(
@@ -12,7 +12,10 @@ const WordGroupCard = ({group, profile, wordsListCallback, editCallback}) => {
             <b>{group.name}</b>
             <EMButton onClick={() => wordsListCallback(group)}>Список слов</EMButton>
             { group.owner === profile.id || profile.role === 'admin' 
-                ? <EMButton onClick = {() => editCallback(group)}>Редактировать</EMButton>
+                ? <div>
+                    <EMButton onClick = {() => editCallback(group)}>Редактировать</EMButton>
+                    <EMButton onClick = { () => addWordsCallback(group)}>Добавить слова</EMButton>
+                 </div>
                 : <div />
             }
         </div>
