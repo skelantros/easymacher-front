@@ -4,7 +4,7 @@ import { useAuth0Token } from "../../hooks/useAuth0Token"
 import EMButton from "../UI/button/EMButton"
 import EMSelect from "../UI/select/EMSelect"
 
-const AddWordGroup = ({errorCallback, addGroupCallback}) => {
+const AddWordGroupForm = ({errorCallback, addGroupCallback}) => {
     const [name, setName] = useState('')
     const [isShared, setIsShared] = useState(false)
     const [getToken] = useAuth0Token()
@@ -16,7 +16,7 @@ const AddWordGroup = ({errorCallback, addGroupCallback}) => {
     }
 
     return(
-        <div>
+        <form>
             <b>Название: </b>
             <input 
                 placeholder="Название"
@@ -33,8 +33,8 @@ const AddWordGroup = ({errorCallback, addGroupCallback}) => {
                 onChange={e => setIsShared(e.target.value === 'true')}
             />
             <EMButton onClick={() => sendGroup()}>Создать</EMButton>
-        </div>
+        </form>
     )
 }
 
-export default AddWordGroup;
+export default AddWordGroupForm;
