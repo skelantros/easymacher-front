@@ -44,3 +44,9 @@ export const updateGroup = (token, id, name = null, isShared = null) => {
 export const removeGroup = (token, id) => {
     return postRequest(`/word-groups/${id}/remove`, {}, bearerConfig(token))
 }
+
+export const rewriteWordsToGroup = (token, groupId, wordsIds) => {
+    return postRequest(`'/word-groups/${groupId}/rewrite-words`), {
+        words: wordsIds
+    }, bearerConfig(token))
+}
