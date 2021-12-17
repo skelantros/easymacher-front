@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { editUser, getUserById } from "../API/users"
+import { editUser, getUserById, removeUser as removeUserFromDb } from "../API/users"
 import { getWordGroupsByOwner } from "../API/wordGroups"
 import { useBoolFetching } from "./useBoolFetching"
 import { useTokenRequest } from "./useTokenRequest"
@@ -24,18 +24,15 @@ export const useUserWithGroups = (id) => {
         fetchGroups()
     }, [])
 
-    const updateUser = async (username = null, firstName = null, lastName = null, errorCallback) => {
-        const request = t => editUser(t, user.id, username, null, firstName, lastName).catch((e) => errorCallback(e.response.data))
+    const updateUser = async (username = null, firstName = null, lastName = null) => {
+        const request = t => editUser(t, user.id, username, null, firstName, lastName)
         const newUser = await makeRequest(request)
         setUser(newUser)
     }
 
     const removeUser = async () => {
-        // TODO
-    }
-
-    const getGroups = async () => {
-        return await makeRequest(t => getWordGroupsByOwner(t, id))
+        const request = t => removeUserFromDb(t, id)
+        await makeRequest(request)
     }
 
     return [user, isUserLoading, isUserError, groups, isGroupsLoading, updateUser, removeUser]
