@@ -9,14 +9,13 @@ export const useWordGuess = (groupId, initCallback) => {
     const [quizGenerator] = useWordGuessShuffler(words)
     const [makeRequest] = useTokenRequest()
 
-    const [fetch, isLoading, isError] = useBoolFetching(async () => {
-        const wordsData = await makeRequest(t => getWordsOfGroup(t, groupId))
-        setWords(wordsData)
-        initCallback()
-    })
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        fetch()
+        makeRequest(t => getWordsOfGroup(t, groupId))
+            .then(ws => setWords(ws))
+            .then(() => initCallback())
+            .then(() => setIsLoading(false))
     }, [])
 
     function checkGuess(guess, guessNote) {
@@ -28,5 +27,5 @@ export const useWordGuess = (groupId, initCallback) => {
         return words.find(w => w.id === guessNote.id)
     }
 
-    return [isLoading, isError, checkGuess, wordByGuessNote, quizGenerator]
+    return [isLoading, checkGuess, wordByGuessNote, quizGenerator]
 }

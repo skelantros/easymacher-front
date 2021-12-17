@@ -2,7 +2,7 @@ import { useState } from "react"
 import EMButton from "../UI/button/EMButton"
 
 const GuessWordForm = ({guessNote, attemptCallback, continueCallback}) => {
-    const [guess, setGuess] = useState('')
+    const [guess, setGuess] = useState(' ' * guessNote.hint.length)
     const [isAnswered, setIsAnswered] = useState(false)
 
     function confirmGuess(e) {

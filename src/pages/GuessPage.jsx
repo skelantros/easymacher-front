@@ -6,7 +6,7 @@ import { useWordGuess } from "../hooks/useWordGuess"
 
 const GuessPage = () => {
     const params = useParams()
-    const [isLoading, isError, checkGuess, wordByGuessNote, quizGenerator] = useWordGuess(params.id, initStates)
+    const [isLoading, checkGuess, wordByGuessNote, quizGenerator] = useWordGuess(params.id, initStates)
     const router = useNavigate()
 
     const [res, setRes] = useState('')

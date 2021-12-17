@@ -4,10 +4,11 @@ export const useBoolFetching = (callback) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false)
 
-    const fetching = async () => {
+    const fetching = async (...args) => {
         try {
             setIsLoading(true);
-            await callback()
+            const res = await callback(...args)
+            return res
         } catch(e) {
             console.log(e);
             setIsError(true);
