@@ -30,3 +30,7 @@ export const editUser = (token, id, username = null, email = null, firstName = n
         lastName
     }, bearerConfig(token))
 }
+
+export const removeUser = (token, id) => {
+    return postRequest(`/user/${id}/remove`, {}, bearerConfig(token))
+}
