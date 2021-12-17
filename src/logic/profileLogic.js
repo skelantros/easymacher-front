@@ -1,6 +1,6 @@
 
 export const canEditGroup = (profile, group) => {
-    return profile.id === group.owner || profile.role === 'admin'
+    return profile.id === group.owner || isAdmin(profile)
 }
 
 export const canSeeGroup = (profile, group) => {
@@ -8,5 +8,9 @@ export const canSeeGroup = (profile, group) => {
 }
 
 export const canEditUser = (profile, user) => {
-    return profile.id === user.id || profile.role === 'admin'
+    return profile.id === user.id || isAdmin(profile)
+}
+
+export const isAdmin = (profile) => {
+    return profile.role === 'admin'
 }
