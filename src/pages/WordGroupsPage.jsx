@@ -22,17 +22,17 @@ const WordGroupsPage = () => {
     const [fetchProfile, isProfileLoading, setProfileError] = useFetching(async () => {
         const prof = await getProfile()
         setProfile(prof)
-        fetchGroups()
+        return prof
     })
 
-    const [fetchGroups, isGroupsLoading, setGroupsError] = useFetching(async () => {
+    const [fetchGroups, isGroupsLoading, setGroupsError] = useFetching(async (prof) => {
         const token = await getToken()
-        const response = await getWordGroupsByOwner(token, profile.id)
+        const response = await getWordGroupsByOwner(token, prof.id)
         setGroups(response.data)
     })
 
     useEffect(() => {
-        fetchProfile()
+        fetchProfile().then(fetchGroups)
     }, [])
 
     const [isPopup, setIsPopup] = useState(false)
