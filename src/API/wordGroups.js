@@ -5,12 +5,7 @@ export const getWordGroups = (token) => {
 }
 
 export const getWordGroupsByOwner = (token, ownerId) => {
-    return getRequest("/word-groups", {
-        params: {
-            user: ownerId
-        },
-        ...bearerConfig(token)
-    })
+    return getRequest(`/user/${ownerId}/word-groups`, bearerConfig(token))
 }
 
 export const getWordGroup = (token, id) => {
