@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import EMButton from "../UI/button/EMButton";
 
-const EditUserForm = ({user, updateUser}) => {
+const EditUserForm = ({user, updateCallback, removeCallback, showRemove}) => {
     const [usernameP, setUsername] = useState(user.username)
     const [firstNameP, setFirstName] = useState(user.firstName)
     const [lastNameP, setLastName] = useState(user.lastName)
@@ -13,13 +13,14 @@ const EditUserForm = ({user, updateUser}) => {
         setLastName(user.lastName)
     }, [user])
 
-    function errorCallback(msg) {
-        setError(msg)
-    }
-
     async function confirmUpdate(e) {
         e.preventDefault()
-        await updateUser(usernameP, firstNameP, lastNameP, errorCallback)
+        await updateCallback(user.id, usernameP, firstNameP, lastNameP)
+    }
+
+    async function confirmRemove(e) {
+        e.preventDefault()
+        await removeCallback(user.id)
     }
 
     return(
@@ -27,7 +28,8 @@ const EditUserForm = ({user, updateUser}) => {
             <b>Имя пользователя:</b><input value={usernameP} onChange={e => setUsername(e.target.value)} /><p/>
             <b>Имя:</b><input value={firstNameP} onChange={e => setFirstName(e.target.value)} /><p/>
             <b>Фамилия:</b><input value={lastNameP} onChange={e => setLastName(e.target.value)} /><p/>
-            <EMButton onClick={confirmUpdate}>Обновить</EMButton><p/>
+            <EMButton onClick={confirmUpdate}>Обновить</EMButton>
+            { showRemove ? <EMButton onClick={confirmRemove}>Удалить</EMButton> : <div/>}<p/>
             <p>{error}</p>
         </form>
     )
