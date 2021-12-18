@@ -14,6 +14,7 @@ const GuessWordForm = ({guessNote, attemptCallback, continueCallback}) => {
             key={i}
             maxLength={1}
             placeholder={guess[i]}
+            size={1}
             onChange={e => {
                 const symb = e.target.value
                 changeSymb(i, symb === "" ? " " : symb)
