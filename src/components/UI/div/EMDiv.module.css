@@ -1,0 +1,14 @@
+.emDiv {
+    padding: 5px 15px;
+    color: white;
+    font-size: 14px;
+    background: #0E79B2;
+    border: 1px solid #1B1F3B;
+    border-radius: 5px;
+    display: flex;
+}
+
+.right {
+    margin-left: auto;
+    margin-right: 0;
+}
