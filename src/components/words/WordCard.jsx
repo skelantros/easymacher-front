@@ -5,7 +5,7 @@ const WordCard = ({word}) => {
 
     function printAny(word) {
         return(
-            <p>{word.id}. <b>{word.word}</b> ({word.translate})</p>
+            <span>{word.id}. <b>{word.word}</b> ({word.translate})</span>
         )
     }
 
@@ -21,7 +21,7 @@ const WordCard = ({word}) => {
         const plural = getPlural(noun)
         const gender = getGender(noun)
         return(
-            <p>{word.id}. <b>{word.word}</b>/{plural} {gender} ({word.translate})</p>
+            <span>{word.id}. <b>{word.word}</b>/{plural} {gender} ({word.translate})</span>
         )
     }
 
@@ -29,14 +29,12 @@ const WordCard = ({word}) => {
         if(word.type === "noun") return printNoun(word)
         else if(word.type === "unknown") return printAny(word)
         else return (
-            <p>{word.id}. <b>{word.word}</b>. We don't know what type of this word is!</p>
+            <span>{word.id}. <b>{word.word}</b>. We don't know what type of this word is!</span>
         )
     }
 
     return (
-        <div>
-            { printWord(word) }
-        </div>
+        printWord(word)
     )
 }
 
