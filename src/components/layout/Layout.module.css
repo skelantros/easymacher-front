@@ -1,0 +1,29 @@
+.myGrid {
+    width: 1366px;
+    height: 768px;
+    display: grid;
+    grid: 
+        "header header header" auto
+	"leftSidebar body rightSidebar" 1fr
+	"footer footer footer" auto
+        / auto 1fr auto;
+    grid-gap: 16px;
+}
+.header {
+    grid-area: header;
+}
+.leftSidebar {
+    grid-area: leftSidebar;
+}
+.body {
+    grid-area: body;
+}
+.rightSidebar {
+    grid-area: rightSidebar;
+}
+.footer {
+    grid-area: footer;
+}
+.myGrid > div {
+    background: gray;
+}
