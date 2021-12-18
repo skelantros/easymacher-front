@@ -3,12 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getWordGroup, getWordsOfGroup, removeGroup, rewriteWordsToGroup, updateGroup } from "../API/wordGroups";
 import { getWords } from "../API/words";
 import EMButton from "../components/UI/button/EMButton";
+import EMDiv from "../components/UI/div/EMDiv";
 import EMSelect from "../components/UI/select/EMSelect";
 import WordCard from "../components/words/WordCard";
 import { useFetching } from "../hooks/useFetching";
 import { useProfile } from "../hooks/useProfile";
 import { useTokenRequest } from "../hooks/useTokenRequest";
 import { canEditGroup } from "../logic/profileLogic";
+import classes from "./WordGroupPage.module.css";
 
 const WordGroupPage = () => {
     const params = useParams()
@@ -88,7 +90,7 @@ const WordGroupPage = () => {
 
     function showGroupWords() {
         return(
-            <div>
+            <div className={classes.column}>
                 <h2>Список слов:</h2>
                 {groupWords.map(w => 
                     <WordCard key = {w.id} word={w}/>)
@@ -99,13 +101,12 @@ const WordGroupPage = () => {
 
     function showGroupWordsEdit() {
         return(
-            <div>
+            <div className={classes.column}>
                 <h2>Список слов:</h2>
                 {groupWords.map(w => 
-                    <div key = {w.id}>
+                    <EMDiv key = {w.id} width={"30%"} right={<EMButton onClick={() => removeWordFromGroup(w)}>-</EMButton>} >
                         <WordCard key = {w.id} word={w}/>
-                        <EMButton onClick={() => removeWordFromGroup(w)}>-</EMButton>
-                    </div>
+                    </EMDiv>
                 )
                 }
             </div>
@@ -114,13 +115,12 @@ const WordGroupPage = () => {
 
     function showRemWords() {
         return(
-            <div>
+            <div className={classes.column}>
                 <h2>Добавить слова:</h2>
                 {remWords.map(w => 
-                    <div key = {w.id}>
-                        <WordCard word = {w} />
-                        <EMButton onClick={() => addWordToGroup(w)}>+</EMButton>
-                    </div>
+                    <EMDiv key = {w.id} width={"30%"} right={<EMButton onClick={() => addWordToGroup(w)}>+</EMButton>} >
+                        <WordCard key = {w.id} word={w}/>
+                    </EMDiv>
                 )}
             </div>
         )
@@ -160,8 +160,10 @@ const WordGroupPage = () => {
         return(
             <div>
                 {showInfo()}
-                { canEdit() ? showGroupWordsEdit() : showGroupWords() }
-                { canEdit() ? showRemWords() : <div/> }
+                <div className={classes.row}>
+                    { canEdit() ? showGroupWordsEdit() : showGroupWords() }
+                    { canEdit() ? showRemWords() : <div/> }
+                </div>
                 { canEdit() 
                     ? <div>
                         <EMButton onClick={() => confirmWordChanges()}>Изменить слова</EMButton>
