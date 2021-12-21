@@ -7,10 +7,15 @@ import WordsPage from "../pages/WordsPage";
 import Profile from "./auth0/Profile";
 import UserPage from "../pages/UserPage"
 import GuessPage from "../pages/GuessPage";
+import { useAuth0 } from "@auth0/auth0-react";
+import LoginButton from "./auth0/LoginButton";
 
 const AppRouter = () => {
-    return(
-        <Routes>
+    const {isAuthenticated} = useAuth0()
+
+    function authRouter() {
+        return(
+            <Routes>
             <Route path="/login" element={<Auth0LoginPage/>} />
             <Route path="/dictionary" element={<WordsPage/>} />
             <Route path="/profile" element={<Profile/>} />
@@ -18,7 +23,18 @@ const AppRouter = () => {
             <Route exact path="/word-group/:id" element={<WordGroupPage/>} />
             <Route exact path ="/user/:id" element={<UserPage/>} />
             <Route exact path ="/word-group/:id/guess" element={<GuessPage/>} />
-        </Routes>
+            </Routes>
+        )
+    }
+
+    function unauthRouter() {
+        return(
+            <Routes><Route path="*" element={<LoginButton />} /></Routes>
+        )
+    }
+
+    return(
+        isAuthenticated ? authRouter() : unauthRouter()
     )
 }
 
