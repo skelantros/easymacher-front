@@ -1,6 +1,6 @@
 import './Layout.module.css'
 
-const Layout = ({header, body, footer}) => {
+const Layout = ({header, body}) => {
     return(
         <section className='myGrid'>
             <div className='header'>
@@ -11,11 +11,9 @@ const Layout = ({header, body, footer}) => {
                 {body}
             </div>
             <div className='rightSidebar' />
-            <div className='footer'>
-                {footer}
-            </div>
         </section>
     )
 }
 
 export default Layout;
+

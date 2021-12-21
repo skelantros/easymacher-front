@@ -2,28 +2,37 @@
     width: 1366px;
     height: 768px;
     display: grid;
-    grid: 
-        "header header header" auto
-	"leftSidebar body rightSidebar" 1fr
-	"footer footer footer" auto
-        / auto 1fr auto;
+    grid-template-areas: 
+        "leftSidebar header rightSidebar"
+	"leftSidebar body rightSidebar";
+
+    grid-template-columns: 1fr 8fr 2fr;
+    grid-template-rows: 1fr 10fr;
+
     grid-gap: 16px;
+    grid-auto-flow: row column dense;
 }
 .header {
     grid-area: header;
+    height: 10%;
 }
 .leftSidebar {
     grid-area: leftSidebar;
+    fill: red;
+    width: 10%;
+    height: 100%;
 }
 .body {
     grid-area: body;
+    width: 80%;
+    height: 100%;
 }
 .rightSidebar {
     grid-area: rightSidebar;
-}
-.footer {
-    grid-area: footer;
+    width: 10%;
+    height: 100%;
 }
 .myGrid > div {
     background: gray;
 }
+
