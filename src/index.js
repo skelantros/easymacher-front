@@ -9,7 +9,6 @@ import { HashRouter } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
-    <HashRouter>
     <Auth0Provider
       domain="skelantros-test.eu.auth0.com"
       clientId="IQ0mXkRlbsXkI11UBgnHZt2kR2TzM9tH"
@@ -19,7 +18,6 @@ ReactDOM.render(
     >
       <App />
     </Auth0Provider>
-    </HashRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

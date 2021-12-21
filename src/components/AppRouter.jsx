@@ -15,7 +15,7 @@ const AppRouter = () => {
 
     function authRouter() {
         return(
-            <div>
+            <Routes>
             <Route path="/login" element={<Auth0LoginPage/>} />
             <Route path="/dictionary" element={<WordsPage/>} />
             <Route path="/profile" element={<Profile/>} />
@@ -23,13 +23,13 @@ const AppRouter = () => {
             <Route exact path="/word-group/:id" element={<WordGroupPage/>} />
             <Route exact path ="/user/:id" element={<UserPage/>} />
             <Route exact path ="/word-group/:id/guess" element={<GuessPage/>} />
-            </div>
+            </Routes>
         )
     }
 
     function unauthRouter() {
         return(
-            <div><Route path="*" element={<LoginButton />} /></div>
+            <Routes><Route path="*" element={<LoginButton />} /></Routes>
         )
     }
 
