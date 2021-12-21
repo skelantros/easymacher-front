@@ -8,8 +8,8 @@ import { api } from './API/constants';
 import { HashRouter } from 'react-router-dom';
 
 ReactDOM.render(
-  <HashRouter basename='/'>
   <React.StrictMode>
+    <HashRouter basename='/'>
     <Auth0Provider
       domain="skelantros-test.eu.auth0.com"
       clientId="IQ0mXkRlbsXkI11UBgnHZt2kR2TzM9tH"
@@ -19,8 +19,8 @@ ReactDOM.render(
     >
       <App />
     </Auth0Provider>
-  </React.StrictMode>
-  </HashRouter>,
+    </HashRouter>
+  </React.StrictMode>,
   document.getElementById('root')
 );
 
