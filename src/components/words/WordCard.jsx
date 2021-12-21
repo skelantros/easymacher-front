@@ -1,11 +1,16 @@
 import { useState } from "react"
+import Card from "react-bootstrap/Card"
 import EMButton from "../UI/button/EMButton"
 
-const WordCard = ({word}) => {
+const WordCard = ({word, content}) => {
 
     function printAny(word) {
         return(
-            <span>{word.id}. <b>{word.word}</b> ({word.translate})</span>
+            <Card style={{ width: '18rem' }}>
+                <Card.Title>{word.word}</Card.Title>
+                <Card.Text>{word.translate}</Card.Text>
+                {content}
+            </Card>
         )
     }
 
@@ -21,16 +26,19 @@ const WordCard = ({word}) => {
         const plural = getPlural(noun)
         const gender = getGender(noun)
         return(
-            <span>{word.id}. <b>{word.word}</b>/{plural} {gender} ({word.translate})</span>
+            <Card style={{ width: '18rem' }}>
+                <Card.Title>{word.word} ({plural}) {gender}</Card.Title>
+                <Card.Text>
+                    {word.translate}
+                </Card.Text>
+                {content}
+            </Card>
         )
     }
 
     function printWord(word) {
         if(word.type === "noun") return printNoun(word)
-        else if(word.type === "unknown") return printAny(word)
-        else return (
-            <span>{word.id}. <b>{word.word}</b>. We don't know what type of this word is!</span>
-        )
+        else return printAny(word)
     }
 
     return (

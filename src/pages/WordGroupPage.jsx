@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { getWordGroup, getWordsOfGroup, removeGroup, rewriteWordsToGroup, updateGroup } from "../API/wordGroups";
 import { getWords } from "../API/words";
@@ -104,9 +105,7 @@ const WordGroupPage = () => {
             <div className={classes.column}>
                 <h2>Список слов:</h2>
                 {groupWords.map(w => 
-                    <EMDiv key = {w.id} width={"30%"} right={<EMButton onClick={() => removeWordFromGroup(w)}>-</EMButton>} >
-                        <WordCard key = {w.id} word={w}/>
-                    </EMDiv>
+                    <WordCard key = {w.id} word={w} content={<Button variant="danger" onClick={() => removeWordFromGroup(w)}>-</Button>} />
                 )
                 }
             </div>
@@ -118,9 +117,7 @@ const WordGroupPage = () => {
             <div className={classes.column}>
                 <h2>Добавить слова:</h2>
                 {remWords.map(w => 
-                    <EMDiv key = {w.id} width={"30%"} right={<EMButton onClick={() => addWordToGroup(w)}>+</EMButton>} >
-                        <WordCard key = {w.id} word={w}/>
-                    </EMDiv>
+                    <WordCard key = {w.id} word={w} content={<Button variant="success" onClick={() => addWordToGroup(w)}>+</Button>} />
                 )}
             </div>
         )
