@@ -23,6 +23,7 @@ const AppRouter = () => {
             <Route exact path="/word-group/:id" element={<WordGroupPage/>} />
             <Route exact path ="/user/:id" element={<UserPage/>} />
             <Route exact path ="/word-group/:id/guess" element={<GuessPage/>} />
+            <Route path="*" element={<WordsPage/>} />
             </Routes>
         )
     }
