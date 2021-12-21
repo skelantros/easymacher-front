@@ -5,8 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { api } from './API/constants';
+import { HashRouter } from 'react-router-dom';
 
 ReactDOM.render(
+  <HashRouter basename='/'>
   <React.StrictMode>
     <Auth0Provider
       domain="skelantros-test.eu.auth0.com"
@@ -17,7 +19,8 @@ ReactDOM.render(
     >
       <App />
     </Auth0Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
+  </HashRouter>,
   document.getElementById('root')
 );
 
