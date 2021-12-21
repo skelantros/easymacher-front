@@ -4,17 +4,22 @@ import { useAuth0Token } from "../../hooks/useAuth0Token"
 import EMButton from "../UI/button/EMButton"
 
 const AddWord = ({errorCallback, addWordCallback}) => {
-    const [word, setWord] = useState(null)
+    const [word, setWord] = useState('')
     const [translate, setTranslate] = useState(null)
     const [type, setType] = useState('unknown')
     const [plural, setPlural] = useState(null)
 
     const [getToken] = useAuth0Token()
 
-    async function sendWord(word) {
+    async function sendWord(e) {
+        e.preventDefault()
         const token = await getToken()
         const {data: newWord} = await addWord(token, word, translate, type, plural)
-        addWordCallback(newWord)
+        await addWordCallback(newWord)
+        setWord('')
+        setTranslate(null)
+        setType('unknown')
+        setPlural(null)
     }
 
     const nounParameters = (
@@ -53,7 +58,7 @@ const AddWord = ({errorCallback, addWordCallback}) => {
             </select>
             <p/>
             { type === 'noun' ? nounParameters : <div /> }
-            <EMButton onClick={() => { sendWord(word) }}>Добавить</EMButton>
+            <EMButton onClick={sendWord}>Добавить</EMButton>
         </div>
     )
 }

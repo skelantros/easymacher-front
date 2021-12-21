@@ -24,6 +24,7 @@ const UserPage = () => {
 
     async function makeEdit(id, username, firstName, lastName) {
         await updateUser(username, firstName, lastName)
+        setIsPopup(false)
     }
 
     async function makeRemove(id) {
