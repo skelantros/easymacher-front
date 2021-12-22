@@ -9,6 +9,7 @@ import PopupWindow from "../components/UI/popup/PopupWindow"
 import EMDiv from "../components/UI/div/EMDiv"
 import { Button, Col, Container, FormControl, InputGroup, Row } from "react-bootstrap"
 import { useNameFilter } from "../hooks/useNameFilter"
+import AddWordModal from "../components/words/AddWordModal"
 
 const WordsPage = () => {
     const [words, setWords] = useState([])
@@ -56,7 +57,7 @@ const WordsPage = () => {
 
     return(
         <Container>
-            <Row>
+            <Row className="my-2">
                 <Col>
                     <InputGroup>
                         <InputGroup.Text>Поиск слов:</InputGroup.Text>
@@ -64,7 +65,7 @@ const WordsPage = () => {
                     </InputGroup>
                 </Col>
                 <Col>
-                    <Button variant="primary" onClick={beginPopup}>Добавить слово</Button>
+                    <Button variant="success" onClick={beginPopup}>Добавить слово</Button>
                 </Col>
             </Row>
             <Row>
@@ -74,9 +75,7 @@ const WordsPage = () => {
                     <WordCard key={w.id} word={w} content={<Button variant="danger" onClick = {() => removeWordFromList(w.id) }>Удалить</Button>} />
                 )
             }
-            <PopupWindow visible={popup} setVisible={setPopup}>
-                <AddWord errorCallback={(e) => setError(e)} addWordCallback={endPopup}/>
-            </PopupWindow>
+            <AddWordModal show={popup} closeCallback={() => setPopup(false)} addWordCallback={endPopup} />
             <p>{error}</p>
             </Row>
         </Container>
