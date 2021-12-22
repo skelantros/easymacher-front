@@ -57,7 +57,6 @@ const WordsPage = () => {
     return(
         <Container>
             <Row>
-                <Col><h2>Словарь</h2></Col>
                 <Col>
                     <InputGroup>
                         <InputGroup.Text>Поиск слов:</InputGroup.Text>

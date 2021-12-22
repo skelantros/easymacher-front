@@ -7,9 +7,6 @@ const WordCard = ({word, content}) => {
         if(typeof(noun.plural) !== 'undefined') return noun.plural
         else return "-"
     }
-    function getGender(noun) {
-        return noun.gender
-    }
 
     function nounArticle(noun) {
         if(noun.gender === 'm')
@@ -25,42 +22,32 @@ const WordCard = ({word, content}) => {
     function translate(word) {
         console.log(word.translate)
         if(word.translate === undefined || word.translate === null || word.translate === '')
-            return ' '
+            return <i>без перевода</i>
         else
             return word.translate
     }
 
-    function printAny(word) {
-        return(
-            <Card style={{ width: '18rem' }}>
-                <Card.Title>{word.word}</Card.Title>
-                <Card.Text>{translate(word)}</Card.Text>
-                {content}
-            </Card>
-        )
+    function anyTitle(word) {
+        return <Card.Title>{word.word}</Card.Title>
     }
 
-    function printNoun(noun) {
-        const plural = getPlural(noun)
-
-        return(
-            <Card style={{ width: '18rem' }}>
-                <Card.Title>{nounArticle(word)} {word.word} ({plural})</Card.Title>
-                <Card.Text>
-                    {translate(word)}
-                </Card.Text>
-                {content}
-            </Card>
-        )
+    function nounTitle(noun) {
+        return <Card.Title>{nounArticle(word)} {word.word} ({getPlural(noun)})</Card.Title>
     }
 
-    function printWord(word) {
-        if(word.type === "noun") return printNoun(word)
-        else return printAny(word)
+    function title(word) {
+        if(word.type === "noun") return nounTitle(word)
+        else return anyTitle(word)
     }
 
     return (
-        printWord(word)
+        <Card className="shadow p-3 mx-2 mb-2 bg-white rounded" border="light" style={{ width: '18rem' }}>
+            {title(word)}
+            <Card.Text>
+                {translate(word)}
+            </Card.Text>
+            {content}
+        </Card>
     )
 }
 
