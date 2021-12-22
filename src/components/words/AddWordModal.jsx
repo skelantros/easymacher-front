@@ -29,6 +29,7 @@ const AddWordModal = ({show, addWordCallback, closeCallback}) => {
         const {data: newWord} = await addWord(token, word, translate, type, plural)
         await addWordCallback(newWord)
         clean()
+        closeCallback()
     }
 
     function isNoun() {
