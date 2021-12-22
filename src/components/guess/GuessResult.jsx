@@ -3,7 +3,7 @@ import WordCard from "../words/WordCard"
 
 const GuessResult = ({score, wrongWords, endCallback, restartCallback}) => {
     function confirmEnd(e) {
-        e.prevenDefault()
+        e.preventDefault()
         endCallback()
     }
 
