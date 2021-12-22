@@ -1,4 +1,6 @@
 import { useState } from "react"
+import Container from "react-bootstrap/Container"
+import Row from "react-bootstrap/Row"
 import { useNavigate, useParams } from "react-router-dom"
 import GuessResult from "../components/guess/GuessResult"
 import GuessWordForm from "../components/guess/GuessWordForm"
@@ -47,27 +49,22 @@ const GuessPage = () => {
         router("/word-groups")
     }
 
-    function showContent() {
-        console.log(guessNotes)
-        return(
-            <div>
-                {formIdx < guessNotes.length 
-                    ? <GuessWordForm key={formIdx} guessNote={guessNotes[formIdx]} attemptCallback={tryGuess} continueCallback={nextQuestion} />
-                    : <GuessResult score={score} wrongWords={wrongWords} endCallback={endGame} restartCallback={initStates}/>
-                }
-                {res}
-            </div>
-        )
+    function currentComponent() {
+        if(formIdx < guessNotes.length)
+            return <GuessWordForm key={formIdx} guessNote={guessNotes[formIdx]} attemptCallback={tryGuess} continueCallback={nextQuestion} />
+        else
+            return <GuessResult key={formIdx + 1} score={score} wrongWords={wrongWords} endCallback={endGame} restartCallback={initStates}/>
     }
 
     return(
-        <div>
+        <Container>
             {
                 isLoading
                 ? <p>Загрузка...</p>
-                : showContent()
+                : currentComponent()
             }
-        </div>
+            <Row>{res}</Row>
+        </Container>
     )
 }
 

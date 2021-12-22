@@ -1,4 +1,5 @@
 import { useState } from "react"
+import Form from "react-bootstrap/Form"
 import { addWord } from "../../API/words"
 import { useAuth0Token } from "../../hooks/useAuth0Token"
 import EMButton from "../UI/button/EMButton"
@@ -10,6 +11,10 @@ const AddWord = ({errorCallback, addWordCallback}) => {
     const [plural, setPlural] = useState(null)
 
     const [getToken] = useAuth0Token()
+
+    function isNoun() {
+        return type === 'noun' || word.startsWith('der ') || word.startsWith('die ') || word.startsWith('das ')
+    }
 
     async function sendWord(e) {
         e.preventDefault()
@@ -33,8 +38,7 @@ const AddWord = ({errorCallback, addWordCallback}) => {
     )
 
     return(
-        <div>
-            <h3>Добавить слово:</h3>
+        <form>
             <b>Слово: </b>
             <input 
                 placeholder="Слово"
@@ -57,9 +61,9 @@ const AddWord = ({errorCallback, addWordCallback}) => {
                 <option value="noun">{"существительное"}</option>
             </select>
             <p/>
-            { type === 'noun' ? nounParameters : <div /> }
+            { isNoun() ? nounParameters : <div /> }
             <EMButton onClick={sendWord}>Добавить</EMButton>
-        </div>
+        </form>
     )
 }
 

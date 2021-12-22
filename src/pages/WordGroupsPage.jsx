@@ -11,6 +11,9 @@ import { useAuth0Token } from "../hooks/useAuth0Token";
 import { useFetching } from "../hooks/useFetching";
 import { useProfile } from "../hooks/useProfile";
 import EMButton from "../components/UI/button/EMButton";
+import {useNameFilter} from "../hooks/useNameFilter"
+import { Button, Col, Container, FormControl, InputGroup, Row } from "react-bootstrap";
+import AddWordGroupModal from "../components/wordgroups/AddWordGroupModal";
 
 const WordGroupsPage = () => {
     // id, username, role, firstName, lastName
@@ -18,6 +21,9 @@ const WordGroupsPage = () => {
     const [getProfile] = useProfile()
     const [groups, setGroups] = useState([])
     const [getToken] = useAuth0Token()
+
+    const [filter, setFilter] = useState('')
+    const [filteredGroups] = useNameFilter(groups, g => g.name, filter)
 
     const [fetchProfile, isProfileLoading, setProfileError] = useFetching(async () => {
         const prof = await getProfile()
@@ -70,11 +76,27 @@ const WordGroupsPage = () => {
 
 
     return(
-        <div>
-            {
-                showContent()
-            }
-        </div>
+        <Container>
+            <Row className="my-2">
+                <Col>
+                    <InputGroup>
+                        <InputGroup.Text>Поиск групп:</InputGroup.Text>
+                        <FormControl onChange={e => setFilter(e.target.value)} value={filter}/>
+                    </InputGroup>
+                </Col>
+                <Col>
+                    <Button variant="success" onClick={() => setIsPopup(true)}>Создать группу</Button>
+                </Col>
+            </Row>
+            <Row>
+                <AddWordGroupModal show={isPopup} addGroupCallback={createGroup} closeCallback={() => setIsPopup(false)}/>
+                { 
+                    isProfileLoading || isGroupsLoading 
+                    ? <p>Загрузка...</p>
+                    : filteredGroups.map(g => <WordGroupCard key = {g.id} group={g} />)
+                }
+            </Row>
+        </Container>
     )
 }
 

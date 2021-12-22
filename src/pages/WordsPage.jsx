@@ -7,10 +7,16 @@ import { addWord, getWords, removeWord } from "../API/words"
 import EMButton from "../components/UI/button/EMButton"
 import PopupWindow from "../components/UI/popup/PopupWindow"
 import EMDiv from "../components/UI/div/EMDiv"
+import { Button, Col, Container, FormControl, InputGroup, Row } from "react-bootstrap"
+import { useNameFilter } from "../hooks/useNameFilter"
+import AddWordModal from "../components/words/AddWordModal"
 
 const WordsPage = () => {
     const [words, setWords] = useState([])
-    const [error, setError] = useState('')
+    const [error, setError] = useState('')  
+
+    const [filter, setFilter] = useState('')
+    const [filteredWords] = useNameFilter(words, w => w.word, filter)
 
     const [popup, setPopup] = useState(false)
 
@@ -50,22 +56,29 @@ const WordsPage = () => {
     }, [])
 
     return(
-        <div>
-            <EMButton onClick={beginPopup}>Добавить слово</EMButton>
-            <h1>Список слов:</h1>
+        <Container>
+            <Row className="my-2">
+                <Col>
+                    <InputGroup>
+                        <InputGroup.Text>Поиск слов:</InputGroup.Text>
+                        <FormControl onChange={e => setFilter(e.target.value)} value={filter}/>
+                    </InputGroup>
+                </Col>
+                <Col>
+                    <Button variant="success" onClick={beginPopup}>Добавить слово</Button>
+                </Col>
+            </Row>
+            <Row>
             { isWordsLoading ?
                 <p>Загрузка...</p>
-                : words.map(w => 
-                    <EMDiv key = {w.id} width={"15%"} right={<EMButton onClick = {() => removeWordFromList(w.id) }>Удалить</EMButton>} >
-                        <WordCard key = {w.id} word={w}/>
-                    </EMDiv>
+                : filteredWords.map(w => 
+                    <WordCard key={w.id} word={w} content={<Button variant="danger" onClick = {() => removeWordFromList(w.id) }>Удалить</Button>} />
                 )
             }
-            <PopupWindow visible={popup} setVisible={setPopup}>
-                <AddWord errorCallback={(e) => setError(e)} addWordCallback={endPopup}/>
-            </PopupWindow>
+            <AddWordModal show={popup} closeCallback={() => setPopup(false)} addWordCallback={endPopup} />
             <p>{error}</p>
-        </div>
+            </Row>
+        </Container>
     )
 }
 

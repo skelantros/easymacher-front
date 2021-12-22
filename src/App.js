@@ -1,16 +1,16 @@
-import logo from './logo.svg';
-import classes from './App.css';
-import { BrowserRouter } from 'react-router-dom';
-import Navbar from './components/UI/Navbar/Navbar';
-import AppRouter from './components/AppRouter';
-import axios from 'axios';
-import Layout from './components/layout/Layout';
+import { HashRouter } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { useAuth0 } from "@auth0/auth0-react";
+import AuthLayout from './components/layout/AuthLayout';
+import UnauthLayout from './components/layout/UnauthLayout';
 
 function App() {
+  const { isAuthenticated } = useAuth0()
+
   return (
-    <BrowserRouter>
-    <Layout header={<Navbar/>} body={<AppRouter/>} footer={<p>Футер</p>}/>
-    </BrowserRouter>
+    <HashRouter basename='/'>
+      { isAuthenticated ? <AuthLayout/> : <UnauthLayout/> }
+    </HashRouter>
   );
 }
 

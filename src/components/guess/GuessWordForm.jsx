@@ -1,5 +1,6 @@
 import { useState } from "react"
-import EMButton from "../UI/button/EMButton"
+import Button from "react-bootstrap/Button"
+import Form from "react-bootstrap/Form"
 
 const GuessWordForm = ({guessNote, attemptCallback, continueCallback}) => {
     const [guess, setGuess] = useState(guessNote.hint.replace(/-/g, " "))
@@ -44,15 +45,15 @@ const GuessWordForm = ({guessNote, attemptCallback, continueCallback}) => {
     }
 
     return(
-        <form>
+        <Form>
             <p><b>{guessNote.hint}</b> ({guessNote.translate})</p>
             <b>Ваш ответ:</b>
             {inputsIdxsArray().map(i => makeInput(i))}
             <p/>
-            <EMButton onClick={confirmGuess} disabled={isAnswered}>Ответить</EMButton>
-            <EMButton onClick={confirmSkip} disabled={isAnswered}>Пропустить</EMButton>
-            <EMButton onClick={confirmContinue} disabled={!isAnswered}>Дальше</EMButton>
-        </form>
+            <Button className="mt-1" onClick={confirmGuess} disabled={isAnswered}>Ответить</Button>
+            <Button variant="light" className="mx-2 mt-1" onClick={confirmSkip} disabled={isAnswered}>Пропустить</Button>
+            <Button variant="secondary" className="mt-1" onClick={confirmContinue} disabled={!isAnswered}>Дальше</Button>
+        </Form>
     )
 }
 
