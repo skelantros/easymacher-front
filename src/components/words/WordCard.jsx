@@ -20,7 +20,6 @@ const WordCard = ({word, content}) => {
     }
 
     function translate(word) {
-        console.log(word.translate)
         if(word.translate === undefined || word.translate === null || word.translate === '')
             return <i>без перевода</i>
         else

@@ -45,8 +45,6 @@ const WordsPage = () => {
     const removeWordFromList = async (id) => {
         const token = await getToken()
         const response = await removeWord(token, id)
-        console.log(response)
-
         const newList = words.filter(w => w.id !== id)
         setWords(newList)
     }
