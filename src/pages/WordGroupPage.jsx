@@ -149,6 +149,8 @@ const WordGroupPage = () => {
                       </div>
                     : <div/>
                 }
+                <b>Начать игру:</b>
+                <Button onClick={e => router(`/word-group/${group.id}/guess`)}>Флеш-карточки</Button>
             </div>
         )
     }
