@@ -1,9 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Col, Container, Row, Navbar, Nav } from "react-bootstrap";
+import { Container, Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import LogoutButton from "../../auth0/LogoutButton";
 
 const MyNavbar = ({links}) => {
+    const {isAuthenticated, logout } = useAuth0()
+
     return(
         <Navbar bg="dark" variant="dark">
         <Container>
@@ -11,6 +12,12 @@ const MyNavbar = ({links}) => {
             <Nav className="me-auto">
                 { links.map(l => <Nav.Link as={Link} key = {l.id} to={l.link}>{l.name}</Nav.Link>)}
             </Nav>
+            { isAuthenticated
+                ? <Nav className="justify-content-end">
+                    <Nav.Link onClick={() => logout({ returnTo: window.location.origin })}>Выйти</Nav.Link>
+                </Nav>
+                : <div/>
+            }
         </Container>
         </Navbar>
     )
