@@ -3,17 +3,6 @@ import Card from "react-bootstrap/Card"
 import EMButton from "../UI/button/EMButton"
 
 const WordCard = ({word, content}) => {
-
-    function printAny(word) {
-        return(
-            <Card style={{ width: '18rem' }}>
-                <Card.Title>{word.word}</Card.Title>
-                <Card.Text>{word.translate}</Card.Text>
-                {content}
-            </Card>
-        )
-    }
-
     function getPlural(noun) {
         if(typeof(noun.plural) !== 'undefined') return noun.plural
         else return "-"
@@ -22,14 +11,43 @@ const WordCard = ({word, content}) => {
         return noun.gender
     }
 
-    function printNoun(noun) {
-        const plural = getPlural(noun)
-        const gender = getGender(noun)
+    function nounArticle(noun) {
+        if(noun.gender === 'm')
+            return 'der'
+        else if(noun.gender === 'f')
+            return 'die'
+        else if(noun.gender === 'n')
+            return 'das'
+        else
+            return 'unknown'
+    }
+
+    function translate(word) {
+        console.log(word.translate)
+        if(word.translate === undefined || word.translate === null || word.translate === '')
+            return ' '
+        else
+            return word.translate
+    }
+
+    function printAny(word) {
         return(
             <Card style={{ width: '18rem' }}>
-                <Card.Title>{word.word} ({plural}) {gender}</Card.Title>
+                <Card.Title>{word.word}</Card.Title>
+                <Card.Text>{translate(word)}</Card.Text>
+                {content}
+            </Card>
+        )
+    }
+
+    function printNoun(noun) {
+        const plural = getPlural(noun)
+
+        return(
+            <Card style={{ width: '18rem' }}>
+                <Card.Title>{nounArticle(word)} {word.word} ({plural})</Card.Title>
                 <Card.Text>
-                    {word.translate}
+                    {translate(word)}
                 </Card.Text>
                 {content}
             </Card>
