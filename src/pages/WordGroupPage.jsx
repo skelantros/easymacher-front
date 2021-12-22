@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { getWordGroup, getWordsOfGroup, removeGroup, rewriteWordsToGroup, updateGroup } from "../API/wordGroups";
 import { getWords } from "../API/words";
-import EMButton from "../components/UI/button/EMButton";
-import EMDiv from "../components/UI/div/EMDiv";
-import EMSelect from "../components/UI/select/EMSelect";
 import WordCard from "../components/words/WordCard";
 import { useFetching } from "../hooks/useFetching";
 import { useProfile } from "../hooks/useProfile";
 import { useTokenRequest } from "../hooks/useTokenRequest";
 import { canEditGroup } from "../logic/profileLogic";
-import classes from "./WordGroupPage.module.css";
+import Col from "react-bootstrap/Col"
+import Form from "react-bootstrap/Form"
+import Button from "react-bootstrap/Button"
+import Container from "react-bootstrap/Container";
+import InputGroup  from "react-bootstrap/InputGroup";
+import Row from "react-bootstrap/Row";
+import { useNameFilter } from "../hooks/useNameFilter"
+import FormControl from "react-bootstrap/FormControl";
 
 const WordGroupPage = () => {
     const params = useParams()
@@ -28,6 +31,11 @@ const WordGroupPage = () => {
     const [updateGroupMsg, setUpdateGroupMsg] = useState('')
 
     const router = useNavigate()
+
+    const [groupFilter, setGroupFilter] = useState('')
+    const [remFilter, setRemFilter] = useState('')
+    const [filteredGroupWords] = useNameFilter(groupWords, w => w.word, groupFilter)
+    const [filteredRemWords] = useNameFilter(remWords, w => w.word, remFilter)
 
 
     const [fetchInfo, isLoading, setError] = useFetching(async () => {
@@ -72,7 +80,8 @@ const WordGroupPage = () => {
     }
 
     async function confirmGroupChanges() {
-        await makeRequest(t => updateGroup(t, group.id, name, isShared))
+        const newGroup = await makeRequest(t => updateGroup(t, group.id, name, isShared))
+        setGroup(newGroup)
         setUpdateGroupMsg("Настройки группы успешно изменены!")
     }
 
@@ -91,85 +100,102 @@ const WordGroupPage = () => {
 
     function showGroupWords() {
         return(
-            <div className={classes.column}>
-                <h2>Список слов:</h2>
-                {groupWords.map(w => 
-                    <WordCard key = {w.id} word={w}/>)
-                }
-            </div>
+            <Col>
+                <h3>Список слов:</h3>
+                <InputGroup style={{ width: '18rem' }}>
+                    <FormControl 
+                        value={groupFilter}
+                        onChange={e => setGroupFilter(e.target.value)}
+                    />
+                </InputGroup>
+                {filteredGroupWords.map(w => 
+                    <WordCard key = {w.id} word={w}/>
+                )}
+            </Col>
         )
     }
 
     function showGroupWordsEdit() {
         return(
-            <div className={classes.column}>
-                <h2>Список слов:</h2>
-                {groupWords.map(w => 
-                    <WordCard key = {w.id} word={w} content={<Button variant="danger" onClick={() => removeWordFromGroup(w)}>-</Button>} />
-                )
-                }
-            </div>
+            <Col>
+                <h3>Список слов:</h3>
+                <InputGroup style={{ width: '18rem' }}>
+                    <FormControl
+                        value={groupFilter}
+                        onChange={e => setGroupFilter(e.target.value)}
+                    />
+                </InputGroup>
+                {filteredGroupWords.map(w => 
+                    <WordCard key = {w.id} word={w} content={<Button variant="danger" onClick={() => removeWordFromGroup(w)}>-</Button>}/>
+                )}
+            </Col>
         )
     }
 
     function showRemWords() {
         return(
-            <div className={classes.column}>
-                <h2>Добавить слова:</h2>
-                {remWords.map(w => 
-                    <WordCard key = {w.id} word={w} content={<Button variant="success" onClick={() => addWordToGroup(w)}>+</Button>} />
+            <Col>
+                <h3>Добавить слова:</h3>
+                <InputGroup style={{ width: '18rem' }}>
+                    <FormControl
+                        value={remFilter}
+                        onChange={e => setRemFilter(e.target.value)}
+                    />
+                </InputGroup>
+                {filteredRemWords.map(w => 
+                    <WordCard key = {w.id} word={w}content={<Button variant="success" onClick={() => addWordToGroup(w)}>+</Button>} />
                 )}
-            </div>
+            </Col>
         )
     }
 
-    function showInfo() {
+    function editForm() {
         return(
-            <div>
-                <b>Название:</b>
-                <input value={name} onChange={e => setName(e.target.value)} readOnly={!canEdit()}/>
-                {canEdit() 
-                    ? <div> 
-                        <b>В общем доступе:</b>
-                        <EMSelect 
-                            value={isShared} 
-                            onChange={e => setIsShared(e.target.value === "true")}
-                            options={[
-                                {name: "да", value: true},
-                                {name: "нет", value: false}
-                            ]}/>
-                    </div>
-                    : <div/>
-                }
-                {canEdit()
-                    ? <div>
-                        <EMButton onClick={() => confirmGroupChanges()}>Изменить</EMButton>
-                        <EMButton onClick={() => confirmRemoveGroup()}>Удалить</EMButton>
-                        <p>{updateGroupMsg}</p>
-                      </div>
-                    : <div/>
-                }
-                <b>Начать игру:</b>
-                <Button onClick={e => router(`/word-group/${group.id}/guess`)}>Флеш-карточки</Button>
-            </div>
+            <Form>
+                <Form.Group as={Row} controlId="nameForm">
+                    <Form.Label column sm="2"><b>Название:</b></Form.Label>
+                    <Col sm="4">
+                        <Form.Control type="text" value={name} onChange={e => setName(e.target.value)} />
+                    </Col>
+                </Form.Group>
+                <Form.Group as={Row} controlId="isSharedForm">
+                    <Form.Label column sm="2"><b>В общем доступе:</b></Form.Label>
+                    <Col sm="2">
+                        <Form.Select value={isShared} onChange={e => setIsShared(e.target.value === 'true')}>
+                            <option value={true}>Да</option>
+                            <option value={false}>Нет</option>
+                        </Form.Select>
+                    </Col>
+                </Form.Group>
+                <Button variant="secondary" className="mt-1" onClick={() => confirmGroupChanges()}>Изменить</Button>
+                <Button variant="secondary" className="mx-2 mt-1" onClick={() => confirmWordChanges()}>Изменить слова</Button>
+                <Button variant="danger" className="mt-1" onClick={() => confirmRemoveGroup()}>Удалить</Button>
+                <p>{updateGroupMsg}</p>
+                <p>{updateWordsMsg}</p>
+            </Form>
         )
     }
     
     function showContent() {
         return(
-            <div>
-                {showInfo()}
-                <div className={classes.row}>
+            <Container>
+                <Row><h2>{group.name}</h2></Row>
+                {canEdit() 
+                    ? <Row>{editForm()}</Row>
+                    : <Row/>
+                }
+                <Row><h3>Начать игру:</h3></Row>
+                <Row>
+                    <Col>
+                    <Button onClick={e => router(`/word-group/${group.id}/guess`)} style={{ width: '10rem' }}>Флеш-карточки</Button>
+                    </Col>
+                </Row>
+
+                <Row>
                     { canEdit() ? showGroupWordsEdit() : showGroupWords() }
-                    { canEdit() ? showRemWords() : <div/> }
-                </div>
-                { canEdit() 
-                    ? <div>
-                        <EMButton onClick={() => confirmWordChanges()}>Изменить слова</EMButton>
-                        <p>{updateWordsMsg}</p>
-                      </div> 
-                    : <div/>}
-            </div>
+                    { canEdit() ? showRemWords() : <Col/> }
+                </Row>
+            </Container>
         )
     }
 

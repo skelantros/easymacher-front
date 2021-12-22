@@ -1,6 +1,8 @@
 import react, { useEffect, useState } from "react"
-import EMButton from "../UI/button/EMButton"
-import EMSelect from "../UI/select/EMSelect"
+import Col from "react-bootstrap/Col"
+import Row from "react-bootstrap/Row"
+import Form from "react-bootstrap/Form"
+import Button from "react-bootstrap/Button"
 
 const EditGroupForm = ({group, editCallback, removeCallback}) => {
     const [name, setName] = useState(group.name)
@@ -22,27 +24,25 @@ const EditGroupForm = ({group, editCallback, removeCallback}) => {
     }
 
     return(
-        <form>
-            <b>Название:</b>
-            <input 
-                value={name}
-                onChange={e => setName(e.target.value)}
-            />
-            <p/>
-            <b>В общем доступе:</b>
-            <EMSelect 
-                value={isShared}
-                options={[
-                    {name: "да", value: true},
-                    {name: "нет", value: false}
-                ]}
-                onChange={e => setIsShared(e.target.value === 'true')}
-            />
-            <p/>
-            <EMButton onClick={(e) => editGroup(e)}>Изменить</EMButton>
-            <EMButton onClick={(e) => removeGroup(e)}>Удалить</EMButton>
-        </form>
-
+        <Form>
+            <Form.Group as={Row} controlId="nameForm">
+                <Form.Label column sm="2">Название:</Form.Label>
+                <Col>
+                    <Form.Control type="text" value={name} onChange={e => setName(e.target.value)} />
+                </Col>
+            </Form.Group>
+            <Form.Group as={Row} controlId="isSharedForm">
+                <Form.Label column sm="2">В общем доступе:</Form.Label>
+                <Col>
+                    <Form.Select value={isShared} onChange={e => setIsShared(e.target.value === 'true')}>
+                        <option value={true}>Да</option>
+                        <option value={false}>Нет</option>
+                    </Form.Select>
+                </Col>
+            </Form.Group>
+            <Button variant="secondary" onClick={(e) => editGroup(e)}>Изменить</Button>
+            <Button variant="danger" onClick={(e) => removeGroup(e)}>Удалить</Button>
+        </Form>
     )
 }
 
