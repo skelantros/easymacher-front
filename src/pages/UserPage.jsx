@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { Button, Container, Placeholder, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import EMButton from "../components/UI/button/EMButton";
 import PopupWindow from "../components/UI/popup/PopupWindow";
 import EditUserForm from "../components/users/EditUserForm";
+import EditUserModal from "../components/users/EditUserModal";
 import WordGroupCard from "../components/wordgroups/WordGroupCard";
 import { useProfile } from "../hooks/useProfile";
 import { useProfileState } from "../hooks/useProfileState";
@@ -34,34 +36,41 @@ const UserPage = () => {
     }
 
     function showUsername() {
-        return isUserLoading ? "Загрузка..." : user.username
+        return isUserLoading ? <Placeholder xs={2} /> : user.username
     }
     function showFirstName() {
-        return isUserLoading ? "Загрузка..." : user.firstName
+        return isUserLoading ? <Placeholder xs={2} /> : user.firstName
     }
     function showLastName() {
-        return isUserLoading ? "Загрузка..." : user.lastName
+        return isUserLoading ? <Placeholder xs={2} /> : user.lastName
     }
     function showGroupsList() {
-        return isGroupsLoading ? <p>Загрузка...</p> : <div>{groups.map(g => <WordGroupCard key={g.id} group={g}/>)}</div>
+        return isGroupsLoading ? <p>Загрузка...</p> : <Row>{groups.map(g => <WordGroupCard key={g.id} group={g}/>)}</Row>
     }
     function showEditButton() {
         if (isProfileLoading || isUserLoading || !canEditUser(profile, user)) return <div />
         else return (<div>
-            <EMButton onClick={() => beginEditing()}>Редактировать</EMButton>
-            <PopupWindow visible={isPopup} setVisible={setIsPopup}>
+            <Button onClick={() => beginEditing()}>Редактировать</Button>
+            {/* <PopupWindow visible={isPopup} setVisible={setIsPopup}>
                 <EditUserForm user={user} updateCallback={makeEdit} removeCallback={makeRemove} showRemove={profile.id !== user.id}/>
-            </PopupWindow>
+            </PopupWindow> */}
+            <EditUserModal 
+                user={user} 
+                updateCallback={makeEdit} 
+                removeCallback={makeRemove} 
+                showRemove={profile.id !== user.id} 
+                show={isPopup} 
+                closeCallback={() => setIsPopup(false)} 
+            />
         </div>)
     }
 
     return(
-        <div>
-            { isError 
+        <Container>
+            { isError
                 ? <p>Ошибка при загрузке пользователя.</p>
                 : <div>
                     <h2>{showUsername()}</h2>
-                    <b>Аватарка</b><p/>
                     <b>Имя: </b>{showFirstName()}<p/>
                     <b>Фамилия: </b>{showLastName()}<p/>
                     {showEditButton()}
@@ -69,7 +78,7 @@ const UserPage = () => {
                     {showGroupsList()}
                 </div>
             }
-        </div>
+        </Container>
     )
 }
 
