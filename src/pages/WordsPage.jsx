@@ -7,11 +7,15 @@ import { addWord, getWords, removeWord } from "../API/words"
 import EMButton from "../components/UI/button/EMButton"
 import PopupWindow from "../components/UI/popup/PopupWindow"
 import EMDiv from "../components/UI/div/EMDiv"
-import { Button, Container } from "react-bootstrap"
+import { Button, Col, Container, FormControl, InputGroup, Row } from "react-bootstrap"
+import { useNameFilter } from "../hooks/useNameFilter"
 
 const WordsPage = () => {
     const [words, setWords] = useState([])
-    const [error, setError] = useState('')
+    const [error, setError] = useState('')  
+
+    const [filter, setFilter] = useState('')
+    const [filteredWords] = useNameFilter(words, w => w.word, filter)
 
     const [popup, setPopup] = useState(false)
 
@@ -52,11 +56,22 @@ const WordsPage = () => {
 
     return(
         <Container>
-            <Button variant="primary" onClick={beginPopup}>Добавить слово</Button>
-            <h1>Список слов:</h1>
+            <Row>
+                <Col><h2>Словарь</h2></Col>
+                <Col>
+                    <InputGroup>
+                        <InputGroup.Text>Поиск слов:</InputGroup.Text>
+                        <FormControl onChange={e => setFilter(e.target.value)} value={filter}/>
+                    </InputGroup>
+                </Col>
+                <Col>
+                    <Button variant="primary" onClick={beginPopup}>Добавить слово</Button>
+                </Col>
+            </Row>
+            <Row>
             { isWordsLoading ?
                 <p>Загрузка...</p>
-                : words.map(w => 
+                : filteredWords.map(w => 
                     <WordCard key={w.id} word={w} content={<Button variant="danger" onClick = {() => removeWordFromList(w.id) }>Удалить</Button>} />
                 )
             }
@@ -64,6 +79,7 @@ const WordsPage = () => {
                 <AddWord errorCallback={(e) => setError(e)} addWordCallback={endPopup}/>
             </PopupWindow>
             <p>{error}</p>
+            </Row>
         </Container>
     )
 }
