@@ -24,9 +24,9 @@ const AuthLayout = () => {
     ]
 
     return(
-        <Container fluid style={{height: "100vh"}} className="bg-light">
+        <Container fluid>
             <MyNavbar links={links}/>
-            <Container style={{height: "100vh"}} className="bg-white">
+            <Container>
                 <Routes>
                     <Route path="/dictionary" element={<WordsPage/>} />
                     <Route exact path="/word-groups" element={<WordGroupsPage/>} />
